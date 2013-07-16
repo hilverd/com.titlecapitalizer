@@ -1,5 +1,5 @@
 (defproject com.titlecapitalizer "1.0.0-SNAPSHOT"
-  :description "Capitalize titles according to user-cutomizable styles."
+  :description "Capitalize titles according to various styles."
   :url "http://www.titlecapitalizer.com/"
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
