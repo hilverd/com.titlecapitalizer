@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.pos-tag {
+  margin-right: 1ex;
+}
+
+abbr.pos-tag-abbr {
+  border: 20px;
+}
+
+.pos-tagged-token {
+  white-space: nowrap;
+}
+
+#details {
+  margin-bottom: 0;
+}
+
+#capitalizationStyleDetails {
+  margin-bottom: 10px;
+}
+
+div.rule-condition-or-action {
+  margin-top: 0.5ex;
+  margin-bottom: 0.5ex;
+  overflow: auto;
+}
+
+div.rule-number {
+  float: left;
+  margin: 0;
+  width: 5em;
+  min-height: 1px;
+}
+
+div.rule-conjunction {
+  float: left;
+  margin: 0;
+  width: 3em;
+}
+
+select.rule-condition-property {
+  width: 10em;
+}
+
+select.eq-rel-op {
+  width: 4em;
+}
+
+select.num-rel-op {
+  width: 4em;
+}
+
+select.token-position {
+  width: 5em;
+}
+
+select.rule-action {
+  width: 14em;
+}
+
+input.pos-tag-typeahead {
+  width: 4em;
+}
+
+input.token-content {
+  width: 7em;
+}
+
+input.token-length {
+  width: 3em;
+}
+
+div.rule-body {
+  float:left;
+  margin:0;
+}
+
+select.rule-control {
+  margin-left: 0.5ex;
+  margin-right: 0.5ex;
+}
+
+input.rule-control {
+  margin-left: 0.5ex;
+  margin-right: 0.5ex;
+}
+
+a.remove-condition, a.add-condition {
+  margin-left: 1ex;
+}
+
+i.add-rule {
+  padding-right: 1ex;
+}
+
+.pos-tag-btn {
+  margin-right: 1ex;
+}
+
+i.rule-reorder {
+  padding-right: 1ex;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* Base class */
+.cap-rule {
+  position: relative;
+  margin: 15px 0;
+  padding: 39px 19px 14px;
+  *padding-top: 19px;
+  background-color: #f5f5f5;
+  border: 1px solid #999;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.cap-rule-label {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  border: 1px solid #999;
+  background-color: #fff;
+  -webkit-border-radius: 4px 0 4px 0;
+     -moz-border-radius: 4px 0 4px 0;
+          border-radius: 4px 0 4px 0;
+}
+
+.cap-rule-remove {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  padding: 3px 7px;
+  border: 1px solid #999;
+  background-color: #fff;
+  -webkit-border-radius: 0 4px 0 4px;
+     -moz-border-radius: 0 4px 0 4px;
+          border-radius: 0 4px 0 4px;
+}
+
+/* Tweak examples
+------------------------- */
+.cap-rule > p:last-child {
+  margin-bottom: 0;
+}
+.cap-rule .table,
+.cap-rule .progress,
+.cap-rule .well,
+.cap-rule .alert,
+.cap-rule .hero-unit,
+.cap-rule .pagination,
+.cap-rule .navbar,
+.cap-rule > .nav,
+.cap-rule blockquote {
+  margin-bottom: 5px;
+}
+.cap-rule .pagination {
+  margin-top: 0;
+}

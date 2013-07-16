@@ -1,0 +1,15 @@
+*jar
+/.env
+/.lein-deps-sum
+/.lein-env
+/.lein-failures
+/.repl
+/checkouts
+/classes/
+/out
+/repl
+/resources/public/js/dev
+/resources/public/js/main.js
+/src/cljs/com/titlecapitalizer/crossover
+/target
+pom.xml

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Title Capitalizer</title>
+        <meta name="description" content="Capitalize titles according to various styles.">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container">
+
+          <div class="masthead">
+            <h2>Title Capitalizer</h2>
+          </div>
+
+          <hr>
+
+          <form id="titleForm" class="form-horizontal" novalidate>
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label" for="inputTitleControls">Title</label>
+                <div class="controls" id="inputTitleControls">
+                  <div>
+                    <input class="input-block-level" type="text" name="inputTitle" id="inputTitle" value="profits double on word-of-mouth sales" autofocus>
+                  </div>
+                </div>
+
+                <div class="controls">
+                  <label class="checkbox">
+                    <input type="checkbox" id="respectCapitalizedInputWords" value="respectCapitalizedInputWords">
+                    Leave already capitalized input words unchanged
+                  </label>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="capitalizationStyleControls">Style</label>
+                <div class="controls" id="capitalizationStyleControls">
+                  <label class="radio">
+                    <input class="style-radio" type="radio" name="styleRadios" value="yahoo" checked>
+                    Yahoo! Style Guide
+                  </label>
+                  <label class="radio">
+                    <input class="style-radio" type="radio" name="styleRadios" value="chicago">
+                    The Chicago Manual of Style
+                  </label>
+                  <label class="radio">
+                    <input class="style-radio" type="radio" name="styleRadios" value="wikibooks">
+                    Wikibooks
+                  </label>
+
+                  <a id="toggleViewDetails" data-toggle="collapse" data-target="#details" href="#"><i id="toggleViewDetailsIcon" class="icon-expand"></i> Show details</a> <i id="loadingDetailsIcon" class=""></i>
+                </div>
+              </div>
+
+              <div class="control-group collapse" id="details">
+                <div class="controls" id="capitalizationStyleDetails">
+                  <div class="control-group">
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                  <a class="btn btn-primary" id="analyzeTitle" href="#"><i id="analyzeTitleIcon" class="icon-ok icon-white"></i> Analyze</a>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="posTaggedTitleControls">Analyzed</label>
+                <div class="controls" id="posTaggedTitleControls">
+                  <div class="well" id="posTaggedTitle" name="posTaggedTitle" style="margin-bottom: 10px"></div>
+                  <span class="help-block"><small>Each token (word) in the title
+                  is tagged by its part of speech. Click on a tag to view or
+                  change it &ndash; the automatic tagger does not always get
+                  everything right.</small></span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="capitalizedTitleControls">Capitalized</label>
+                <div class="controls" id="capitalizedTitleControls">
+                  <input class="input-block-level" type="text" name="capitalizedTitle" id="capitalizedTitle" onfocus="this.select()" onMouseUp="return false" readonly>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                  <a class="btn" href="#" id="copyTitle" data-clipboard-target="capitalizedTitle"> <i class="icon-copy"></i> Copy</a>
+                </div>
+              </div>
+
+            </fieldset>
+          </form>
+
+          <hr>
+
+          <div class="footer">
+            <p>&copy; <a href="https://github.com/hilverd">Hilverd Reker</a> 2013.</p>
+          </div>
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/bootstrapx-clickover.js"></script>
+        <script src="js/ZeroClipboard.min.js"></script>
+        <script src="js/extra/main.js"></script>
+        <script>com.titlecapitalizer.main.presenter.init();</script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-41046921-1'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
