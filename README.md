@@ -1,11 +1,12 @@
 # Title Capitalizer
 
-A small web application for capitalizing titles according to various styles.
-Titles are analyzed using [Apache OpenNLP](https://opennlp.apache.org/) via
-(clojure-opennlp)[https://github.com/dakrone/clojure-opennlp], and then
-capitalization rules are applied.
+Title Capitalizer is a small web application for capitalizing titles according
+to various styles. Titles are analyzed using
+[Apache OpenNLP](https://opennlp.apache.org/) via
+[clojure-opennlp](https://github.com/dakrone/clojure-opennlp), and then
+capitalization rules are applied to each token.
 
-This is an early release, much work is still to be done.
+This is an early release, much still remains to be done.
 
 ## Usage
 
