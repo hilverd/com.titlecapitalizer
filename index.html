@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Title Capitalizer : Capitalize titles according to various styles." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Title Capitalizer</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hilverd/com.titlecapitalizer">View on GitHub</a>
+
+          <h1 id="project_title">Title Capitalizer</h1>
+          <h2 id="project_tagline">Capitalize titles according to various styles.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hilverd/com.titlecapitalizer/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hilverd/com.titlecapitalizer/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="title-capitalizer" class="anchor" href="#title-capitalizer"><span class="octicon octicon-link"></span></a>Title Capitalizer</h1>
+
+<p>Title Capitalizer is a small web application for capitalizing titles according
+to various styles. Titles are analyzed using
+<a href="https://opennlp.apache.org/">Apache OpenNLP</a> via
+<a href="https://github.com/dakrone/clojure-opennlp">clojure-opennlp</a>, and then
+capitalization rules are applied to each token.</p>
+
+<p>This is an early release, much still remains to be done.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>The application is currently hosted by Heroku at
+<a href="http://www.titlecapitalizer.com/">titlecapitalizer.com</a>.</p>
+
+<p>Alternatively, to start a local web server for development you can either eval
+<code>web_app.clj</code> from your editor or launch from the command line:</p>
+
+<pre><code>$ lein with-profile production trampoline run -m com.titlecapitalizer.view.web-app
+</code></pre>
+
+<h2>
+<a name="to-do" class="anchor" href="#to-do"><span class="octicon octicon-link"></span></a>To Do</h2>
+
+<ul>
+<li><p>Make styles editable. Allow users to log in using
+<a href="https://github.com/cemerick/friend">Friend</a>. Set up a PostgreSQL database and
+store users' custom styles there.</p></li>
+<li><p>Allow capitalization styles to be exported and imported to/from text files.</p></li>
+<li><p>In the "Analyzed" area show the rules that were matched to each token. Display
+the rule number after the token's POS tag.</p></li>
+<li><p>Add <a href="https://github.com/marick/Midje">unit tests</a>.</p></li>
+<li><p>Add informal documentation.</p></li>
+<li><p>Add documentation about the application's internals.</p></li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright © 2013 Hilverd Reker.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Title Capitalizer maintained by <a href="https://github.com/hilverd">hilverd</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
