@@ -8,10 +8,27 @@
 
  (if ((is token "o'clock")) "o'Clock")
 
+ ;; Parts of contractions
+ (if ((is pos-tag VBP) (is token "'m")) no-capitalize)
+ (if ((is pos-tag VBP) (is token "'ve")) no-capitalize)
+ (if ((is pos-tag VB) (is token "'ve")) no-capitalize)
+ (if ((is pos-tag VBP) (is token "'re")) no-capitalize)
+ (if ((is pos-tag VBZ) (is token "'s")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'s")) no-capitalize)
+ (if ((is pos-tag RB) (is token "n't")) no-capitalize)
+ (if ((is pos-tag MD) (is token "'d")) no-capitalize)
+ (if ((is pos-tag MD) (is token "'ll")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'em")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'im")) no-capitalize)
+ (if ((is pos-tag RP) (is token "'bout")) no-capitalize)
+
  ;; The first and last words are always capitalized, even if fewer than five
  ;; letters.
  (if ((is token-position first)) capitalize)
  (if ((is token-position last)) capitalize)
+
+ ;; Alternate or multi-part titles
+ (if ((is prev-token ":")) capitalize-if-lowercase)
 
  ;; Words over five letters are always capitalized
  (if ((greater-than token-length 5)) capitalize-if-lowercase)

@@ -8,9 +8,25 @@
 
  (if ((is token "o'clock")) "o'Clock")
 
+ ;; Parts of contractions
+ (if ((is pos-tag VBP) (is token "'m")) no-capitalize)
+ (if ((is pos-tag VBP) (is token "'ve")) no-capitalize)
+ (if ((is pos-tag VB) (is token "'ve")) no-capitalize)
+ (if ((is pos-tag VBP) (is token "'re")) no-capitalize)
+ (if ((is pos-tag VBZ) (is token "'s")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'s")) no-capitalize)
+ (if ((is pos-tag RB) (is token "n't")) no-capitalize)
+ (if ((is pos-tag MD) (is token "'d")) no-capitalize)
+ (if ((is pos-tag MD) (is token "'ll")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'em")) no-capitalize)
+ (if ((is pos-tag PRP) (is token "'im")) no-capitalize)
+ (if ((is pos-tag RP) (is token "'bout")) no-capitalize)
+
  (if ((is token-position first)) capitalize-if-lowercase)
  (if ((is token-position last)) capitalize-if-lowercase)
+
  (if ((is prev-token ":")) capitalize-if-lowercase)
+
  (if ((is pos-tag IN) (less-than token-length 5)) no-capitalize)
  (if ((is pos-tag IN)) capitalize-if-lowercase)
  (if ((is pos-tag CC)) no-capitalize)
