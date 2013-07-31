@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Capitalization Styles | Title Capitalizer</title>
+        <meta name="description" content="Capitalize titles according to various styles.">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container">
+
+          <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+              <li><a href="/">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="https://github.com/hilverd/com.titlecapitalizer">Code</a></li>
+              <li><a href="mailto:feedback@titlecapitalizer.com">Contact</a></li>
+            </ul>
+            <h3>Title Capitalizer <small>alpha</small></h3>
+          </div>
+
+          <hr>
+
+          <p>Capitalizing a title is done in three main steps: (1) tokenization, (2)
+            part-of-speech tagging, and (3) applying a capitalization style.</p>
+
+          <h2>Tokenization and POS-Tagging</h2>
+
+          <p>A <em>title</em> is represented as a string $S$, which is a non-empty sequence of
+            characters. Before the <em>part of speech</em> (i.e. linguistic category) of each word
+            in a title $S$ can be identified, first <em>tokenization</em> is used to break $S$ up
+            into a sequence of tokens. A <em>token</em> is a string typically representing a word,
+            punctuation, or number. For example, the title "Austerity: France's harshest
+            budget in 30 years" might be tokenized as follows.</p>
+
+          <p>$$
+            \text{Austerity} \mid \text{:} \mid \text{France} \mid \text{'s} \mid
+            \text{harshest} \mid \text{budget} \mid \text{in} \mid \text{30} \mid
+            \text{years}
+            $$</p>
+
+          <p>(For clarity, vertical bars are used here to separate the elements of the
+            tokenized title.)</p>
+
+          <p>For implementation purposes, it is useful to keep track of where in a title each
+            token is taken from. Therefore, an <em>indexed token</em> is a pair $\langle w, j
+            \rangle$, where $w$ is a token and $j$ a nonnegative integer. A <em>tokenized
+              title</em> is a non-empty sequence $\langle w_1, j_1 \rangle, \ldots, \langle
+            w_n, j_n \rangle$ of indexed tokens, obtained by tokenizing a title $S$, such
+            that for every $i \in \{1, \ldots, n\}$ we have that $S$ contains the word
+            $w_i$ starting at position $j_i$. An example of a tokenized title obtained
+            from the title "To be or not to be" is</p>
+
+          <p>$$
+            \langle \text{To}, 1 \rangle,
+            \langle \text{be}, 4 \rangle,
+            \langle \text{or}, 7 \rangle,
+            \langle \text{not}, 10 \rangle,
+            \langle \text{to}, 14 \rangle,
+            \langle \text{be}, 17 \rangle \text{ .}
+            $$</p>
+
+          <p>Title Capitalizer uses an English tokenizer from [Apache OpenNLP] to perform
+            this step.</p>
+
+          <p>After tokenization, a <em>POS tagger</em> (part-of-speech tagger) assigns to each token
+            a word class, such as "verb", "noun", etcetera. Formally, a <em>POS-tagged
+              (indexed) token</em> is a triple $\langle w, t, j \rangle$, where $w$ is a token,
+            $t$ is a part-of-speech tag, and $j$ is a nonnegative integer. POS tags are as
+            used in the <a href="http://www.cis.upenn.edu/~treebank/">Penn Treebank Project</a>: see
+            <a href="http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html">The Penn Treebank Tag-set</a> for a detailed description. The number $j$ is the
+            <em>index</em> of the token, and serves the same purpose as in indexed tokens. A
+            <em>POS-tagged title</em> is a non-empty sequence $T = \langle w_1, t_1, j_1
+            \rangle, \ldots, \langle w_n, t_n, j_n \rangle$ of POS-tagged tokens. For
+            instance, a POS-tagged title obtained from the title "He likes food" is</p>
+
+          <p>$$
+            \langle \text{He}, \mathit{PRP}, 1 \rangle,
+            \langle \text{likes}, \mathit{VBZ}, 4 \rangle,
+            \langle \text{food}, \mathit{NN}, 10 \rangle
+            ~.
+            $$</p>
+
+          <p>Note that $\mathit{PRP}$ stands for "personal pronoun", $\mathit{VBZ}$ for
+            "verb, present tense, 3rd person singular", and $\mathit{NN}$ for "noun" (see
+            <a href="http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html">The
+            Penn Treebank Tag-set</a>). POS-tagging a sentence is a non-trivial
+            task, and as for tokenization, Title Capitalizer relies on Apache
+            OpenNLP to do the hard work.</p>
+
+          <h2>Applying Capitalization Styles</h2>
+
+          <p>The next step in the capitalization process is to apply a capitalization
+            style. The latter is a set of rules stating, for instance, that all nouns should
+            be capitalized, and so should the first and last word of a title, and so
+            on. There are many different styles, see e.g. <a href="https://en.wikipedia.org/wiki/Letter_case#Headings_and_publication_titles">Headings and publication
+              titles</a>. We
+            proceed to give a formal description of capitalization styles, so that they can
+            be specified clearly and applied automatically --- assuming that the title has
+            been correctly POS-tagged. A <em>capitalization style</em> is a Lisp-style expression
+            $\mathit{st}$ constructed using the following BNF grammar.</p>
+
+          <pre><code>&lt;style&gt;            ::= &lt;option&gt;* &lt;rule&gt;*
+              &lt;option&gt;           ::= :version &lt;version&gt;
+              | :hy-comp-style &lt;hy-comp-style&gt;
+              &lt;hy-comp-style&gt;    ::= first | separate | all
+              &lt;rule&gt;             ::= (if (&lt;condition&gt;*) &lt;action&gt;)
+              &lt;condition&gt;        ::= (&lt;eq-rel-op&gt; pos-tag &lt;pos-tag&gt;)
+              | (&lt;eq-rel-op&gt; token &lt;token&gt;)
+              | (&lt;num-rel-op&gt; token-length &lt;number&gt;)
+              | (&lt;eq-rel-op&gt; token-position &lt;position&gt;)
+              | (&lt;eq-rel-op&gt; prev-token &lt;token&gt;)
+              &lt;eq-rel-op&gt;        ::= is | is-not
+              &lt;num-rel-op&gt;       ::= greater-than | less-than
+              &lt;position&gt;         ::= first | last
+              &lt;action&gt;           ::= capitalize
+              | capitalize-if-lowercase
+              | no-capitalize
+              | &lt;token&gt;
+          </code></pre>
+
+          <p>Here,</p>
+
+          <ul>
+            <li><code>&lt;version&gt;</code> is a quoted string specifying the version number of the BNF
+              grammar that was used (e.g. "0.1.1"),</li>
+            <li><code>&lt;pos-tag&gt;</code> is a symbol denoting a POS tag as used in the Penn Treebank
+              Project project (e.g. $\mathit{VB}$),</li>
+            <li><code>&lt;number&gt;</code> is a positive integer, and</li>
+            <li><code>&lt;token&gt;</code> is a quoted string as obtained by tokenization. If a token itself
+              needs to contain double quotes, they can be escaped by prefixing them with a
+              backslash. Note that the token in a condition usually does not contain any
+              uppercase letters.</li>
+          </ul>
+
+          <p>The action of a rule is only allowed to be a token if the rule is of the form
+            <code>(if (is token &lt;token1&gt;) &lt;token2&gt;)</code>. Moreover, <code>&lt;token2&gt;</code> is required to be a
+            <em>capitalization variant</em> of <code>&lt;token1&gt;</code>. That is, <code>&lt;token2&gt;</code> is obtained from
+            <code>&lt;token1&gt;</code> by capitalizing certain letters. For example, "o'Clock" is a
+            capitalization variant of "o'clock".</p>
+
+          <p>A capitalization style is essentially a sequence $\mathit{st} = r_1, \ldots,
+            r_m$ of <em>capitalization rules</em>, the latter being expressions generated by the
+            <code>&lt;rule&gt;</code> nonterminal. Note that a rule contains zero or more conditions. The
+            following are examples of capitalization rules.</p>
+
+          <ul>
+            <li><code>(if ((is token-position first)) capitalize)</code></li>
+            <li><code>(if ((is pos-tag CC) (greater-than token-length 3)) capitalize-if-lowercase)</code></li>
+            <li><code>(if ((is token "o'clock")) "o'Clock")</code></li>
+          </ul>
+
+          <p>The interpretation of these rules is explained later, when we specify how to
+            match and apply them.</p>
+
+          <h3>Hyphenated Compounds</h3>
+
+          <p>When deciding on a capitalization style, the question arises of how to
+            capitalize <em>hyphenated compounds</em>. These are two or more words connected by
+            hyphens, like "merry-go-round" or "well-being". We allow for three approaches
+            when capitalizing such compounds: (1) capitalize only the first word, (2)
+            capitalize all words, and (3) capitalize the constituent words separately, as if
+            they were not joined together (but leave the hyphens in place).</p>
+
+          <p>If the <code>&lt;hy-comp-style&gt;</code> part of a capitalization style is <code>separate</code>, then
+            during tokenization, any hyphenated compounds are broken up into separate
+            tokens. Otherwise, the compounds are left as a single token. For example,
+            consider the title $S$ $=$ "I am on the merry-go-round". When working with a
+            capitalization style where <code>&lt;hy-comp-style&gt;</code> is <code>first</code> or <code>all</code>, we would
+            typically obtain the POS-tagged title</p>
+
+          <p>$$
+            \langle \text{I}, \mathit{PRP}, 1 \rangle,
+            \langle \text{am}, \mathit{VBP}, 3 \rangle,
+            \langle \text{on}, \mathit{IN}, 6 \rangle,
+            \langle \text{the}, \mathit{DT}, 9 \rangle,
+            \langle \text{merry-go-round}, \mathit{NN}, 13 \rangle
+            ~.
+            $$</p>
+
+          <p>Otherwise, if <code>&lt;hy-comp-style&gt;</code> is <code>separate</code>, we would probably obtain</p>
+
+          <p>$$
+            \langle \text{I}, \mathit{PRP}, 1 \rangle,
+            \langle \text{am}, \mathit{VBP}, 3 \rangle,
+            \langle \text{on}, \mathit{IN}, 6 \rangle,
+            \langle \text{the}, \mathit{DT}, 9 \rangle,
+            \langle \text{merry}, \mathit{NN}, 13 \rangle,
+            \langle \text{go}, \mathit{VB}, 19 \rangle,
+            \langle \text{round}, \mathit{RB}, 22 \rangle
+            ~.
+            $$</p>
+
+          <p>Note that in the latter, the hyphens are not explicitly part of any token, but
+            they are present in the original title when it is capitalized. This is
+            formalized next.</p>
+
+          <p>The result of <em>capitalizing</em> a token $\langle w, t, j \rangle$ in a POS-tagged
+            title obtained from a title $S$ w.r.t. the <code>&lt;hy-comp-style&gt;</code> part of a
+            capitalization style is defined as follows. If <code>&lt;hy-comp-style&gt;</code> is <code>all</code>, then
+            the result is $S$ with the first letter of $w$ (if any) capitalized, as well as
+            any letter in $w$ that directly follows a hyphen. Otherwise (if
+            <code>&lt;hy-comp-style&gt;</code> is <code>first</code> or <code>separate</code>), the result is $S$ with the first
+            letter of $w$ (if any) capitalized. In the above example, suppose the last token
+            $\langle \text{merry-go-round}, \mathit{NN}, 13 \rangle$ in the first POS-tagged
+            title is to be capitalized. If <code>&lt;hy-comp-style&gt;</code> is <code>all</code>, the result is "I am
+            on the Merry-Go-Round". Otherwise, the result is "I am on the Merry-go-round".</p>
+
+          <h3>Matching and Applying Rules</h3>
+
+          <p>To capitalize a POS-tagged title according to a capitalization style, the idea
+            is that for each token, we find the first rule that matches it (if any), and
+            apply its action.</p>
+
+          <p>Let $T = \langle w_1, t_1, j_1 \rangle, \ldots, \langle w_n, t_n, j_n
+            \rangle$ be a POS-tagged title, <code>&lt;condition&gt;</code> a condition as specified in the
+            BNF grammar above, and $k \in \{ 1, \ldots, n \}$. We say that <code>&lt;condition&gt;</code>
+            <em>matches</em> the $k$th element of $T$ iff one of the following holds.</p>
+
+          <ul>
+            <li><code>&lt;condition&gt;</code> $=$ <code>(is pos-tag &lt;pos-tag&gt;)</code> and $t_k =$ <code>&lt;pos-tag&gt;</code>.</li>
+            <li><code>&lt;condition&gt;</code> $=$ <code>(is-not pos-tag &lt;pos-tag&gt;)</code> and $t_k \neq$ <code>&lt;pos-tag&gt;</code>.</li>
+            <li><code>&lt;condition&gt;</code> $=$ <code>(is token &lt;token&gt;)</code> and $w_k =$ <code>&lt;token&gt;</code>.</li>
+            <li><code>&lt;condition&gt;</code> $=$ <code>(is-not token &lt;token&gt;)</code> and $w_k \neq$ <code>&lt;token&gt;</code>.</li>
+            <li><code>&lt;condition&gt;</code> $=$ <code>(greater-than token-length &lt;number&gt;)</code> and $m >$ <code>&lt;number&gt;</code>,
+        where $m$ is the length of $w_k$.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(less-than token-length &lt;number&gt;)</code> and $m <$ <code>&lt;number&gt;</code>,
+                                                                                                      where $m$ is the length of $w_k$.</li>
+                                                                                                      <li><code>&lt;condition&gt;</code> $=$ <code>(is token-position first)</code> and $k = 1$.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(is-not token-position first)</code> and $k \neq 1$.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(is token-position last)</code> and $k = n$.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(is-not token-position last)</code> and $k \neq n$.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(is prev-token &lt;token&gt;)</code>, $k > 1$, and $w_{k-1} =$
+    <code>&lt;token&gt;</code>.</li>
+<li><code>&lt;condition&gt;</code> $=$ <code>(is-not prev-token &lt;token&gt;)</code>, $k > 1$, and $w_{k-1} \neq$
+  <code>&lt;token&gt;</code>.</li>
+</ul>
+
+<p>Let $r = $<code>(if (&lt;condition&gt;*) &lt;action&gt;)</code> be a capitalization rule, and $\langle
+  w, t, j \rangle$ an element of a POS-tagged title. Then $r$ <em>matches</em> $\langle
+  w, t, j \rangle$ iff each of its conditions matches $\langle w, t, j \rangle$.</p>
+
+<p>Suppose $\mathit{st}$ is a capitalization style, $T = \langle w_1, t_1, j_1
+  \rangle, \ldots, \langle w_n, t_n, j_n \rangle$ a POS-tagged title obtained
+  from a title $S$, and $k \in \{ 1, \ldots, n \}$.</p>
+
+<ul>
+  <li><p>The result $\mathit{cap}(\mathit{st}, S, T, k)$ of <em>capitalizing</em> the $k$th
+      token of $S$ w.r.t. $T$ using $\mathit{st}$ is a string obtained as
+      follows. Let $r$ be the first rule of $\mathit{st}$ which matches $\langle
+      w_k, t_k, j_k \rangle$.</p>
+
+    <ul>
+      <li><p>If no such rule exists, or if the action of $r$ is <code>no-capitalize</code>, then
+          $\mathit{cap}(\mathit{st}, S, T, k) = S$.</p></li>
+      <li><p>If the action of $r$ is <code>capitalize-if-lowercase</code> and the $k$th token of $S$
+          does not contain any capital letters, then $\mathit{cap}(\mathit{st}, S, T,
+          k)$ is the result of capitalizing the $k$th token of $S$ w.r.t. $T$ and the
+          <code>&lt;hy-comp-style&gt;</code> part of $\mathit{st}$. Otherwise, if the $k$th token of
+          $S$ contains capital letters, then $\mathit{cap}(\mathit{st}, S, T, k) = S$.</p></li>
+      <li><p>If the action of $r$ is a token $w$, then $\mathit{cap}(\mathit{st}, S, T,
+          k)$ is the result of replacing the $k$th token of $S$ by $w$. Recall that in
+          this case, $r$ must be of the form <code>(if (is token &lt;token1&gt;) &lt;token2&gt;)</code> where
+          <code>&lt;token1&gt;</code> is $w_k$, <code>&lt;token2&gt;</code> is $w$, and $w$ is a capitalization variant
+          of $w_k$.</p></li>
+      <li><p>If the action of $r$ is <code>capitalize</code>, then, $\mathit{cap}(\mathit{st}, S, T,
+          k)$ is the result of capitalizing the $k$th token of $S$ w.r.t. $T$ and the
+          <code>&lt;hy-comp-style&gt;</code> part of $\mathit{st}$.</p></li>
+  </ul></li>
+  <li><p>The result of <em>capitalizing</em> $S$ w.r.t. $T$ using $\mathit{st}$ is $f(S, 1)$,
+      where the function $f$ is defined as follows:</p>
+
+    <p>$$
+      f(S, k) = \left\{
+      \begin{array}{ll}
+      f(\mathit{cap}(\mathit{st}, S, T, k), k + 1) &amp; \text{ if } k &lt; n \text{ ,}
+      \\
+      \mathit{cap}(\mathit{st}, S, T, k) &amp; \text{ if } k = n \text{ .}
+      \end{array}
+      \right.
+      $$</p></li>
+</ul>
+
+        <hr>
+
+        <footer>
+          Copyright &copy; 2013 <a href="mailto:feedback@titlecapitalizer.com">Hilverd Reker</a>.
+        </footer>
+
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/bootstrapx-clickover.js"></script>
+        <script src="js/ZeroClipboard.min.js"></script>
+        <script src="js/extra/main.js"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+          }
+          });
+        </script>
+        <script type="text/javascript"
+                src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+        <script>com.titlecapitalizer.main.presenter.init();</script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-41046921-1'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>

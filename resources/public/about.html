@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Title Capitalizer</title>
+        <meta name="description" content="Capitalize titles according to various styles.">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container">
+
+          <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+              <li><a href="/">Home</a></li>
+              <li class="active"><a href="about.html">About</a></li>
+              <li><a href="https://github.com/hilverd/com.titlecapitalizer">Code</a></li>
+              <li><a href="mailto:feedback@titlecapitalizer.com">Contact</a></li>
+            </ul>
+            <h3>Title Capitalizer <small>alpha</small></h3>
+          </div>
+
+          <hr>
+
+          <p>Title Capitalizer is a small web application for capitalizing titles according
+            to various styles. There are plenty of resources describing how one should
+            <a href="http://www.google.com/search?q=words+to+capitalize+in+title">capitalize words in a
+              title</a>, but there
+            do not appear to exist many sophisticated tools for doing so automatically. This
+            is my attempt at an implementation that uses <a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">part-of-speech
+              tagging</a> and allows for
+            different capitalization
+            <a href="https://github.com/hilverd/com.titlecapitalizer/tree/master/resources/capitalization-styles">styles</a>
+            to be specified. A style is a list of rules stating e.g. that the first and last
+            words should always be capitalized, that prepositions of four or more letters
+            should be capitalized, and so on.</p>
+
+          <p>The idea is simple: you provide a title (in lower case), which is analyzed by a
+            part-of-speech tagger to determine which words are nouns, verbs, etc. Then the
+            chosen capitalization style is applied, by trying to match each word to a rule
+            and capitalizing the word if necessary. The basic architecture of Title
+            Capitalizer is described semi-formally in <a href="capitalization-styles.html">Capitalization
+              Styles</a>.</p>
+
+          <p>Please note that this is only a first version and Title Capitalizer should
+            currently be considered <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha">alpha
+              quality</a>. It is
+            <a href="https://github.com/hilverd/com.titlecapitalizer/">implemented</a>
+            using Clojure, ClojureScript, Twitter Bootstrap, and jQuery, and
+            deployed to Heroku.</p>
+
+        <hr>
+
+        <footer>
+          Copyright &copy; 2013 <a href="mailto:feedback@titlecapitalizer.com">Hilverd Reker</a>.
+        </footer>
+
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="js/jquery.ui.touch-punch.min.js"></script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/bootstrapx-clickover.js"></script>
+        <script src="js/ZeroClipboard.min.js"></script>
+        <script src="js/extra/main.js"></script>
+        <script>com.titlecapitalizer.main.presenter.init();</script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-41046921-1'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
